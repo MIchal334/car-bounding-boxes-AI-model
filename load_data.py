@@ -3,6 +3,7 @@ import os
 import matplotlib.pyplot as plt
 import cv2
 import numpy as np
+from draw_squer import draw_squer
 
 file_train_data = '/home/michal/Desktop/photos/car_boxes/boxes/train'
 file_train_valid = '/home/michal/Desktop/photos/car_boxes/boxes/valid'
