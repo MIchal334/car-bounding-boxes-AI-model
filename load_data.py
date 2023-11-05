@@ -2,6 +2,7 @@ import csv
 import os
 import matplotlib.pyplot as plt
 import cv2
+import numpy as np
 
 file_train_data = '/home/michal/Desktop/photos/car_boxes/boxes/train'
 file_train_valid = '/home/michal/Desktop/photos/car_boxes/boxes/valid'
@@ -10,7 +11,11 @@ x_size = 416
 y_size = 416
 
 def load_car_data():
-    __load_data_from_csv(file_train_data)
+    train_images, train_boxes = __load_data_from_csv(file_train_data)
+    print('TRAIN DATA LOADED')
+    valid_images, valid_boxes = __load_data_from_csv(file_train_valid)
+    print('VALID DATA LOADED')
+    return (np.array(train_images)[:100], np.array(valid_images)[:100], np.array(train_boxes)[:100],np.array(valid_boxes)[:100])
 
 
 def __load_data_from_csv(path_dir):
@@ -20,11 +25,11 @@ def __load_data_from_csv(path_dir):
             reader = csv.DictReader(csvfile, quotechar='|')
             for row in reader:
                 img_name = row['filename']
-                photo = __load_cv2_image(path_dir,img_name)
-                # plt.imshow(photo)
-                # plt.show()
-                # break
-                # images.append(__load_cv2_image())
+                image = __load_cv2_image(path_dir,img_name)
+                bounding_box = [row['xmin'], row['ymin'], row['xmax'], row['ymax']]
+                images.append(image)
+                bounding_boxes.append(bounding_box)
+    return (images, bounding_boxes)
 
 
 def __load_cv2_image(path,img):
