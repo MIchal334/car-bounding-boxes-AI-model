@@ -16,7 +16,8 @@ def load_car_data():
     print('TRAIN DATA LOADED')
     valid_images, valid_boxes = __load_data_from_csv(file_train_valid)
     print('VALID DATA LOADED')
-    return (np.array(train_images), np.array(valid_images), np.array(train_boxes),np.array(valid_boxes))
+    return (np.array(train_images)[:1500], np.array(valid_images)[:600], np.array(train_boxes)[:1500],np.array(valid_boxes)[:600])
+
 
 
 def __load_data_from_csv(path_dir):
