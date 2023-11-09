@@ -7,7 +7,7 @@ def draw_squer(bounding_box,img):
     x = [int(bounding_box[0]),int(bounding_box[0]),int(bounding_box[2]),int(bounding_box[2])]
     y = [int(bounding_box[1]),int(bounding_box[3]),int(bounding_box[3]),int(bounding_box[1])]
     fig, ax = plt.subplots()
-    ax.imshow(img)
+    ax.imshow(img[0])
     rectangle = patches.Polygon(np.column_stack((x, y)), closed=True, linewidth=2, edgecolor='r', facecolor='none')
     ax.add_patch(rectangle)
     plt.xlabel('Współrzędna X')

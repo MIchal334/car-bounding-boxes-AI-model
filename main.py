@@ -24,16 +24,17 @@ def __prepare_data():
 
 
 def __get_model(shape):
-    custom_iou = CustomIoUMetric()
-    model = models.Sequential()
-    model.add(layers.Conv2D(128, (12,12), activation = keras.activations.relu, input_shape = shape))
+    model = keras.Sequential()
+    model.add(layers.Conv2D(64, (6, 6), activation='relu', input_shape=shape))
+    model.add(layers.MaxPooling2D((4, 4)))
+    model.add(layers.Conv2D(16, (3, 3), activation='relu'))
     model.add(layers.MaxPooling2D((3, 3)))
-    model.add(layers.Conv2D(32, (3, 3), activation = keras.activations.relu))
+    model.add(layers.Conv2D(8, (3, 3), activation='relu'))
     model.add(layers.MaxPooling2D((2, 2)))
-    # model.add(layers.Conv2D(64, (3, 3), activation = keras.activations.relu))
     model.add(layers.GlobalAveragePooling2D())
-    model.add(layers.Dense(64, activation=keras.activations.relu))
-    # model.add(layers.Dense(16, activation=keras.activations.selu))
+    # model.add(layers.Dropout(0.5))
+    # model.add(layers.Dense(16, activation='relu'))
+    # model.add(layers.Dropout(0.5))
     model.add(layers.Dense(4, activation='linear'))
     model.compile(optimizer= keras.optimizers.Adam(), loss = custom_loss, metrics = [CustomIoUMetric()])
     model.summary()
@@ -45,7 +46,9 @@ def __get_model(shape):
 
 def train_network(train_data,train_labels,test_data,test_labels):
     network = __get_model(train_data[0].shape)
-    return network.fit(train_data,train_labels,batch_size = 2, validation_data=(test_data,test_labels), epochs=5)
+    history = network.fit(train_data,train_labels,batch_size = 2, validation_data=(test_data,test_labels), epochs=60)
+    network.save('car_boxes_model')
+    return history
 
 
 
