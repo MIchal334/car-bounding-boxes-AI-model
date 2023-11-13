@@ -16,7 +16,7 @@ def load_car_data():
     print('TRAIN DATA LOADED')
     valid_images, valid_boxes = __load_data_from_csv(file_train_valid)
     print('VALID DATA LOADED')
-    return (np.array(train_images)[1000:3000], np.array(train_images)[:1000], np.array(train_boxes)[1000:3000],np.array(train_boxes)[:1000])
+    return (np.array(train_images)[600:2900], np.array(train_images)[:700], np.array(train_boxes)[600:2900],np.array(train_boxes)[:700])
     # return (np.array(train_images)[600:3000], np.array(valid_images), np.array(train_boxes)[600:3000],np.array(valid_boxes))
 
 
@@ -29,6 +29,8 @@ def __load_data_from_csv(path_dir):
             for row in reader:
                 img_name = row['filename']
                 image = __load_cv2_image(path_dir,img_name)
+                if image is None:
+                    continue
                 bounding_box = [row['xmin'], row['ymin'], row['xmax'], row['ymax']]
                 images.append(image)
                 bounding_boxes.append(bounding_box)
@@ -37,5 +39,9 @@ def __load_data_from_csv(path_dir):
 
 def __load_cv2_image(path,img):
     img_path = os.path.join(path, img)
+
+    if not os.path.exists(img_path):
+        return None
+    
     img_pix = cv2.imread(img_path, 1)
     return cv2.resize(img_pix, (x_size, y_size))
