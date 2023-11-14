@@ -21,8 +21,8 @@ def show_test_set(network):
 
 
 def __preapre_image_for_proccesing(img):
-    x_size = 400
-    y_size = 400
+    x_size = 416
+    y_size = 416
     image = cv2.resize(img, (x_size, y_size))
     image = image[np.newaxis, ...]
     return image.astype('float32')/255
